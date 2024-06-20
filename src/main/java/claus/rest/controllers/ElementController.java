@@ -3,8 +3,10 @@ package claus.rest.controllers;
 import claus.backend.database.DB;
 import claus.backend.domain.elements.CategoryDAO;
 import claus.backend.domain.elements.ElementDAO;
+import claus.backend.domain.elements.ElementRequirementDao;
 import claus.backend.elements.Category;
 import claus.backend.elements.Element;
+import claus.backend.elements.ElementRequirement;
 import claus.backend.elements.Tree;
 import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +62,15 @@ public class ElementController
         var elems = ElementDAO.getBySpecificCategory(con, cop, catCode);
         DB.freeConnection(con);
         return elems;
+    }
+
+    @GetMapping("api/{cop}/requirements")
+    List<ElementRequirement> getReqs(@PathVariable String cop) throws SQLException
+    {
+        var con = DB.getConnection();
+        var reqs = ElementRequirementDao.getByCoP(con, cop);
+        DB.freeConnection(con);
+        return reqs;
     }
 
 }
